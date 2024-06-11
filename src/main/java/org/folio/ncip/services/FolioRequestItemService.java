@@ -84,7 +84,7 @@ public class FolioRequestItemService extends FolioNcipService implements Request
 			String barcode = null;
 			String callNumber = null;
 			String locationName = null;
-			if(requestItemResponseDetails.getJsonObject("item") != null) {
+			if (requestItemResponseDetails.getJsonObject("item") != null) {
 				JsonObject item = requestItemResponseDetails.getJsonObject("item");
 				barcode = item.getString("barcode");
 				callNumber = item.getString("callNumber");
@@ -144,8 +144,7 @@ public class FolioRequestItemService extends FolioNcipService implements Request
 
 		if (bibliographicId == null || bibliographicId.getBibliographicRecordId() == null ||
 				bibliographicId.getBibliographicRecordId().getBibliographicRecordIdentifier() == null) {
-			FolioNcipException exception = new FolioNcipException("Item id missing");
-			throw exception;
+      throw new FolioNcipException("Item id missing");
 		}
 
 	}

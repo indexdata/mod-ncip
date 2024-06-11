@@ -21,7 +21,6 @@ public class FolioCheckInItemService extends FolioNcipService implements CheckIn
 
 		CheckInItemResponseData checkInItemResponseData = new CheckInItemResponseData();
 		ItemId itemId = initData.getItemId();
-		String loanUuid;
 		logger.info("checking in " + itemId);
 
 		try {
@@ -50,7 +49,6 @@ public class FolioCheckInItemService extends FolioNcipService implements CheckIn
         	checkInItemResponseData.getProblems().add(p);
         	return checkInItemResponseData;
 		}
-		
 
 		try {
 			// THE SERVICE MANAGER CALLS THE OKAPI APIs
@@ -76,12 +74,19 @@ public class FolioCheckInItemService extends FolioNcipService implements CheckIn
 						checkInResponseDetails.getJsonObject("loan").getJsonObject("borrower").getString("barcode"));
 				checkInItemResponseData.setUserId(uId);
 
-				loanUuid = checkInResponseDetails.getJsonObject("loan").getString("id");
+				String loanUuid = checkInResponseDetails.getJsonObject("loan").getString("id");
+				String userUuid = checkInResponseDetails.getJsonObject("loan").getString("userId");
+
 				UserId loanId = new UserId();
 				loanId.setUserIdentifierValue(loanUuid);
 				loanId.setUserIdentifierType(new UserIdentifierType(Constants.SCHEME, "loanUuid"));
+
+				UserId userId = new UserId();
+				userId.setUserIdentifierValue(userUuid);
+				userId.setUserIdentifierType(new UserIdentifierType(Constants.SCHEME, "userUuid"));
+
 				UserOptionalFields userOptionalFields = new UserOptionalFields();
-				userOptionalFields.setUserIds(List.of(loanId));
+				userOptionalFields.setUserIds(List.of(loanId, userId));
 				checkInItemResponseData.setUserOptionalFields(userOptionalFields);
 			}
 			

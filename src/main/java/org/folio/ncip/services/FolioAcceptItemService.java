@@ -1,15 +1,14 @@
 package org.folio.ncip.services;
 
 
-import java.util.ArrayList;
-import java.util.List;
-
+import io.vertx.core.json.JsonObject;
 import org.apache.log4j.Logger;
 import org.extensiblecatalog.ncip.v2.service.*;
 import org.folio.ncip.Constants;
 import org.folio.ncip.FolioNcipException;
 import org.folio.ncip.FolioRemoteServiceManager;
-import io.vertx.core.json.JsonObject;
+
+import java.util.ArrayList;
 
 public class FolioAcceptItemService extends FolioNcipService implements AcceptItemService {
 	
@@ -71,17 +70,14 @@ public class FolioAcceptItemService extends FolioNcipService implements AcceptIt
 	        RequestId ncipRequestId = new RequestId();
 	        ncipRequestId.setAgencyId(new AgencyId(requesterAgencyId));
 	        ncipRequestId.setRequestIdentifierType(requestIdentifierType);
-				  UserId optionalUserId = new UserId();
 	           
 	        try {
 	        	// THE SERVICE MANAGER CALLS THE OKAPI APIs
 	        	JsonObject acceptItemResponseDetails = ((FolioRemoteServiceManager)serviceManager).acceptItem(initData,userId,requesterAgencyId.toLowerCase());
 	        	String assignedRequestId = acceptItemResponseDetails.getString("id");
-						String requesterId = acceptItemResponseDetails.getString("requesterId");
 	        	responseData.setItemId(itemId);
 	        	ncipRequestId.setRequestIdentifierValue(assignedRequestId);
 	        	responseData.setRequestId(ncipRequestId);
-						optionalUserId.setUserIdentifierValue(requesterId);
 	        }
 	        catch(Exception e) {
 	        	if (responseData.getProblems() == null) responseData.setProblems(new ArrayList<>());
@@ -89,11 +85,6 @@ public class FolioAcceptItemService extends FolioNcipService implements AcceptIt
 	        	responseData.getProblems().add(p);
 	        	return responseData;
 	        }
-
-				  optionalUserId.setUserIdentifierType(new UserIdentifierType(Constants.SCHEME,"uuid"));
-				  UserOptionalFields userOptionalFields = new UserOptionalFields();
-				  userOptionalFields.setUserIds(List.of(optionalUserId));
-
 		    return responseData;
 	 }
 	 
