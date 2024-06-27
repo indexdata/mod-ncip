@@ -2,8 +2,12 @@ name: deploy
 
 on:
   push:
-
+  pull_request: 
+    types: [opened, synchronize, reopened]
+  workflow_dispatch: 
+  
 env:
+  PUBLISH_BRANCH: 'development'
   K8S_NAMESPACE: 'reshare'
   K8S_DEPLOYMENT: 'mod-ncip-1-14-5'
   REGISTRY: ghcr.io
@@ -23,8 +27,28 @@ jobs:
           java-version: '17'
           distribution: 'adopt'
 
+      - name: Cache SonarCloud packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+
+      - name: Cache Maven packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+
       - name: Build with Maven
-        run: mvn clean install
+        run: mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install org.jacoco:jacoco-maven-plugin:report
+
+      - name: SQ analyze
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: mvn -B org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.host.url=https://sonarcloud.io -Dsonar.organization=indexdata -Dsonar.projectKey=indexdata_${{ github.event.repository.name }}
 
       - name: Log in to the Container registry
         uses: docker/login-action@v2
@@ -48,6 +72,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
 
       - name: Deploy latest to K8s
+        if: ${{ env.CURRENT_BRANCH == env.PUBLISH_BRANCH }} 
         uses: actions-hub/kubectl@v1.21.2
         env:
           KUBE_CONFIG: ${{ secrets.RESHARE_DEV_SA_KUBECONFIG }}
