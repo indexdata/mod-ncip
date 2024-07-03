@@ -1,7 +1,7 @@
 package org.folio.ncip.services;
 
-
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.extensiblecatalog.ncip.v2.service.AgencyId;
 import org.extensiblecatalog.ncip.v2.service.AgencyUserPrivilegeType;
 import org.extensiblecatalog.ncip.v2.service.AuthenticationInput;
@@ -42,7 +42,7 @@ import io.vertx.core.json.JsonObject;
 
 public class FolioLookupUserService  extends FolioNcipService  implements LookupUserService  {
 	
-	 private static final Logger logger = Logger.getLogger(FolioLookupUserService.class);
+	 private static final Logger logger = LogManager.getLogger(FolioLookupUserService.class);
 	 public long reqTimeoutMs;
 	 public JsonObject obj;
 	 private Properties ncipProperties;
@@ -385,10 +385,14 @@ public class FolioLookupUserService  extends FolioNcipService  implements Lookup
 
 		private void checkPinIfNeeded(LookupUserInitiationData initData, FolioRemoteServiceManager serviceManager,
 									  String userId) throws FolioNcipException {
+		 logger.info("Start PIN check");
 			if (initData.getAuthenticationInputs() != null) {
+				logger.info("Have auth inputs");
 				for (AuthenticationInput authenticationInput : initData.getAuthenticationInputs()) {
 					String authType = authenticationInput.getAuthenticationInputType().getValue();
+					logger.info("Input type {}", authType);
 					if (Constants.AUTH_TYPE_PIN.equalsIgnoreCase(authType)) {
+						logger.info("PIN check needed");
 						String authValue = authenticationInput.getAuthenticationInputData();
 						serviceManager.checkUserPin(userId, authValue);
 					}
