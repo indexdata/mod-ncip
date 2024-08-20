@@ -760,6 +760,7 @@ public class FolioRemoteServiceManager implements RemoteServiceManager {
 			}
 
 			String noteEnabled = ncipProperties.getProperty(agencyId + ".request.note.enabled");
+			logger.info("Note enabled: {} for agency {}", noteEnabled, agencyId);
 			if (Constants.BOOLEAN_TRUE.equalsIgnoreCase(noteEnabled)) {
 				JsonObject note = new JsonObject();
 				note.put("domain", Constants.NOTE_DOMAIN_REQUESTS);
