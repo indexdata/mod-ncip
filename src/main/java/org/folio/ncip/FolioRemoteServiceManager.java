@@ -755,12 +755,12 @@ public class FolioRemoteServiceManager implements RemoteServiceManager {
 
 	private void addNoteIfNeeded(String agencyId, String requestUuid, String illRequestId, String baseUrl, boolean initProperties) {
 		try {
+			agencyId = agencyId == null ? agencyId : agencyId.toLowerCase();
 			if (initProperties) {
 				initProperties(agencyId, baseUrl);
 			}
 
 			String noteEnabled = ncipProperties.getProperty(agencyId + ".request.note.enabled");
-			logger.info("Note enabled: {} for agency {}", noteEnabled, agencyId);
 			if (Constants.BOOLEAN_TRUE.equalsIgnoreCase(noteEnabled)) {
 				JsonObject note = new JsonObject();
 				note.put("domain", Constants.NOTE_DOMAIN_REQUESTS);
