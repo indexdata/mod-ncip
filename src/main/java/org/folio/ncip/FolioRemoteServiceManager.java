@@ -1143,6 +1143,7 @@ public class FolioRemoteServiceManager implements RemoteServiceManager {
 				}
 
 				String softDeleteEnabled = ncipProperties.getProperty(agencyId + ".item.soft.delete");
+				logger.info("Item soft delete: {}", softDeleteEnabled);
 				if (Constants.BOOLEAN_TRUE.equalsIgnoreCase(softDeleteEnabled)) {
 					// Update item to Unavailable
 					itemObject.getJsonObject("status").put("name", Constants.ITEM_STATUS_UNAVAILABLE);
