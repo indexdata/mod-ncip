@@ -750,7 +750,9 @@ public class FolioRemoteServiceManager implements RemoteServiceManager {
 					servicePointId = ncipProperties.getProperty(agencyId + ".checkout.service.point.id");
 				}
 				request.put("pickupServicePointId", servicePointId);
-				request.put("itemLocationCode", locationCode);
+				if (locationCode != null) {
+					request.put("itemLocationCode", locationCode);
+				}
 
 				String requestUrl = baseUrl + Constants.REQUEST_URL;
 				String requestResponse = callApiPost(requestUrl, request);
