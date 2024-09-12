@@ -547,7 +547,12 @@ public class FolioRemoteServiceManager implements RemoteServiceManager {
 			item.put(Constants.ID, itemUuid.toString());
 			item.put("holdingsRecordId", holdingsUuid.toString());
 			item.put("discoverySuppress", true);
-			item.put("itemLevelCallNumber", itemId.getItemIdentifierValue());
+			if (initData.getItemOptionalFields() != null && initData.getItemOptionalFields().getItemDescription() != null &&
+					initData.getItemOptionalFields().getItemDescription().getCallNumber() != null) {
+				item.put("itemLevelCallNumber", initData.getItemOptionalFields().getItemDescription().getCallNumber());
+			} else {
+				item.put("itemLevelCallNumber", itemId.getItemIdentifierValue());
+			}
 			// PLACE HOLD DOES NOT WORK UNLESS THE ITEM HAS A PERM LOCATION
 			JsonObject permLocation = new JsonObject();
 			permLocation.put(Constants.ID, itemLocation);
