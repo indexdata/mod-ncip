@@ -32,6 +32,8 @@ import org.extensiblecatalog.ncip.v2.service.Version1UserIdentifierType;
 import org.folio.ncip.Constants;
 import org.folio.ncip.FolioNcipException;
 import org.folio.ncip.FolioRemoteServiceManager;
+
+import java.util.List;
 import java.util.Properties;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -120,19 +122,20 @@ public class FolioLookupUserService  extends FolioNcipService  implements Lookup
 		 LookupUserResponseData responseData = new LookupUserResponseData();
 		 try {
 
-			 UserId userId = new UserId();
-			 userId.setUserIdentifierValue(userDetails.getString("id"));
-			 responseData.setUserId(userId);
-
 			  if (responseData.getUserOptionalFields()==null)
 		        	responseData.setUserOptionalFields(new UserOptionalFields());
-			  
+
 			 if (initData.getNameInformationDesired()) {
 				 responseData.getUserOptionalFields().setNameInformation(this.retrieveName(userDetails));
 			 }
 			 
-			 if (initData.getUserIdDesired())
-				 responseData.setUserId(this.retrieveBarcode(userDetails,requesterAgencyId));
+			 if (initData.getUserIdDesired()) {
+				 responseData.setUserId(this.retrieveBarcode(userDetails, requesterAgencyId));
+				 UserId userUuid = new UserId();
+				 userUuid.setUserIdentifierType(new UserIdentifierType("uuid"));
+				 userUuid.setUserIdentifierValue(userDetails.getString("id"));
+				 responseData.getUserOptionalFields().setUserIds(List.of(userUuid));
+			 }
 			 
 			  if (initData.getUserAddressInformationDesired())
 		        	responseData.getUserOptionalFields().setUserAddressInformations(this.retrieveAddress(userDetails,requesterAgencyId));
