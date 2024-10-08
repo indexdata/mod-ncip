@@ -28,6 +28,7 @@ import org.extensiblecatalog.ncip.v2.service.UserOptionalFields;
 import org.extensiblecatalog.ncip.v2.service.UserPrivilege;
 import org.extensiblecatalog.ncip.v2.service.UserPrivilegeStatus;
 import org.extensiblecatalog.ncip.v2.service.UserPrivilegeStatusType;
+import org.extensiblecatalog.ncip.v2.service.Version1UserIdentifierType;
 import org.folio.ncip.Constants;
 import org.folio.ncip.FolioNcipException;
 import org.folio.ncip.FolioRemoteServiceManager;
@@ -118,7 +119,11 @@ public class FolioLookupUserService  extends FolioNcipService  implements Lookup
 		 
 		 LookupUserResponseData responseData = new LookupUserResponseData();
 		 try {
-			 
+
+			 UserId userId = new UserId();
+			 userId.setUserIdentifierValue(userDetails.getString("id"));
+			 responseData.setUserId(userId);
+
 			  if (responseData.getUserOptionalFields()==null)
 		        	responseData.setUserOptionalFields(new UserOptionalFields());
 			  
