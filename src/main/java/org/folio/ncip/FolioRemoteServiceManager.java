@@ -1061,6 +1061,7 @@ public class FolioRemoteServiceManager implements RemoteServiceManager {
 			return user;
 		String id = user.getString(Constants.ID);
 		user = gatherPatronData(user, id);
+		user.put("userUuid", id);
 		return user;
 	}
 
