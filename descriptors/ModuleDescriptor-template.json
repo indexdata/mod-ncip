@@ -15,6 +15,8 @@
             "automated-patron-blocks.collection.get",
             "addresstypes.collection.get",
             "circulation.requests.item.post",
+            "circulation-storage.circulation-rules.get",
+            "circulation-storage.cancellation-reasons.collection.get",
             "ui-circulation.settings.overdue-fines-policies",
             "ui-circulation.settings.lost-item-fees-policies",
             "inventory-storage.all",
@@ -29,18 +31,30 @@
             "configuration.entries.item.get",
             "usergroups.item.get",
             "manualblocks.collection.get",
+            "note.types.collection.get",
             "accounts.collection.get",
             "circulation.check-out-by-barcode.post",
             "circulation.check-in-by-barcode.post",
             "circulation.loans.collection.get",
+            "circulation.requests.collection.get",
             "inventory.instances.item.post",
+            "inventory.instances.item.delete",
             "inventory-storage.holdings.item.delete",
+            "inventory.items.collection.get",
             "inventory.items.item.delete",
+            "inventory.items.item.put",
+            "inventory.instances.collection.get",
             "inventory.instances.item.delete",
             "inventory-storage.holdings.item.post",
             "inventory-storage.service-points-users.collection.get",
             "inventory.items.item.post",
-            "inventory-storage.service-points.item.get"
+            "inventory-storage.service-points.item.get",
+            "owners.collection.get",
+            "feefines.collection.get",
+            "accounts.item.post",  
+            "circulation.requests.item.get",  
+            "circulation.requests.item.put",
+            "note.types.collection.get"
         ]
         },
         {
@@ -93,11 +107,11 @@
       },
       {
         "id":"holdings-storage",
-        "version":"7.0"
+        "version":"6.0 7.0 8.0"
       },
       {
         "id":"inventory",
-        "version":"10.2 11.0 12.0 13.0"
+        "version":"10.2 11.0 12.0 13.0 14.0"
       },
       {
         "id":"circulation",

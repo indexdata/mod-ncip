@@ -26,7 +26,10 @@
 			<BibliographicDescription>
 			<Author>Author</Author>
 			<Title>TEST ONE</Title>
-			</BibliographicDescription>
+		</BibliographicDescription>
+		<ItemDescription>
+			<CallNumber>Call Number</CallNumber>
+		</ItemDescription>
 		</ItemOptionalFields>
 		<PickupLocation>DELIVERY</PickupLocation>
 		<FiscalTransactionInformation>
