@@ -9,7 +9,7 @@ on:
 env:
   PUBLISH_BRANCH: 'development'
   K8S_NAMESPACE: 'reshare'
-  K8S_DEPLOYMENT: 'mod-ncip-1-14-5'
+  K8S_DEPLOYMENT: 'mod-ncip-1-15-6'
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
   CURRENT_BRANCH: ${{ github.ref_name }}
