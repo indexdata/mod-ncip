@@ -74,7 +74,7 @@ jobs:
 
       - name: Deploy latest to K8s
         if: ${{ env.CURRENT_BRANCH == env.PUBLISH_BRANCH }} 
-        uses: actions-hub/kubectl@v1.21.2
+        uses: actions-hub/kubectl@v1.32.2
         env:
           KUBE_CONFIG: ${{ secrets.RESHARE_DEV_SA_KUBECONFIG }}
         with:
